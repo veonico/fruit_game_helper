@@ -49,11 +49,8 @@ while True:
             mouse.drag(*start_point, *end_point, duration = 0.5)
 
         cv2.imshow('image', image)
-        cease_key = cv2.waitKey(500)
+        cv2.waitKey(500)
 
-        if cease_key == ord('q'):
-            print("quit")
-            break
     else:
         print("No Combination detected")
         break

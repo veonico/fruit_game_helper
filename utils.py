@@ -37,7 +37,7 @@ def get_bboxes(img):
     """
 
     red_lower = np.array([17, 15, 100], dtype = "uint8")
-    red_upper = np.array([50, 56, 255], dtype = "uint8")
+    red_upper = np.array([100, 100, 255], dtype = "uint8")
 
     mask = cv2.inRange(img, red_lower, red_upper) # 흑백 
 
@@ -63,6 +63,7 @@ def get_bboxes(img):
 
     # 상자 뒤집기 (뒤에서부터 탐색하기 때문)
     boxes = np.flip(np.array(boxes), axis = 0).reshape([10, 17, -1])
+    print(boxes.shape)
 
     return imgs, boxes
 

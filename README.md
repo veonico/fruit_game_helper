@@ -29,4 +29,5 @@ python main.py
 - `click the right-bottom corner of the game canvas`라는 문구가 뜨면 게임 화면의 우하단 모서리 클릭
 
 4. 매크로 실행
-   ![無料ゲーム「フルーツボックス」 - Chrome 2023-03-02 16-51-06_1](https://user-images.githubusercontent.com/47023884/222366226-baa34e10-3777-48ea-ae30-e4f666003b65.gif)
+
+![無料ゲーム「フルーツボックス」 - Chrome 2023-03-02 16-51-06_1](https://user-images.githubusercontent.com/47023884/222366226-baa34e10-3777-48ea-ae30-e4f666003b65.gif)

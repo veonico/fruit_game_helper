@@ -66,30 +66,46 @@ def get_bboxes(img):
 
     return imgs, boxes
 
-def find_nine_ones(digit_matrix):
+def find_tens(digit_matrix):
     """
-    숫자로 이루어진 배열을 받아, 해당 배열 내에서 (9-1) 조합을 찾는다.
+    누적합을 통해, 합이 10이되는 경우의 수를 탐색한다.
     """
+    ROW_MAX = 10
+    COL_MAX = 17
 
-    ROW_MAX = 9
-    COL_MAX = 16
+    cum_matrix = digit_matrix.cumsum(axis = 0).cumsum(axis = 1)
+    cum_matrix = np.pad(cum_matrix, pad_width = 1)[:-1, :-1]
 
-    nine_locs = np.concatenate([np.where(digit_matrix == 9)]).T
-    picked = []
-
-    delta = [(0,1), (0, -1), (1,0), (-1, 0)]
+    weight = 0 # 가중치의 합
+    locs = (-1, -1, -1, -1) # 가장 높은 가중치를 가진 좌표
     
-    for row_idx, col_idx in nine_locs:
-        for row_off, col_off in delta:
-            new_row = row_idx + row_off
-            new_col = col_idx + col_off
+    for r1 in range (ROW_MAX-1):
+        for c1 in range(COL_MAX-1):
 
-            if 0 <= new_row < ROW_MAX and 0 <= new_col < COL_MAX:
-                if digit_matrix[new_row][new_col] == 1:
-                    picked.append((row_idx, col_idx, new_row, new_col))
-                    break
+            area_lt = cum_matrix[r1][c1] # left-top area
 
-    return picked
+            for r2 in range(r1+1, ROW_MAX):
+
+                area_lb = cum_matrix[r2][c1] # left-bottom area
+
+                for c2 in range(c1+1, COL_MAX):
+
+                    area_rt = cum_matrix[r1][c2] # right-top area
+                    area_rb = cum_matrix[r2][c2] # right-bottom area
+
+                    if area_lt - area_lb - area_rt + area_rb == 10:
+                        temp_weight = np.sum(digit_matrix[r1:r2, c1:c2].flatten()**2)
+
+                        if temp_weight > weight:
+                            weight = temp_weight
+                            locs = (r1, c1, r2-1, c2-1)
+
+    # 탐색한 지역은 0으로 표시
+    r1, c1, r2, c2 = locs
+    digit_matrix[r1:r2+1, c1:c2+1] = 0
+
+    return locs
+
 
 def combine_picked(picked, boxes):
     """
@@ -97,7 +113,11 @@ def combine_picked(picked, boxes):
     """
     combined_boxes = []
 
+    if isinstance(picked, tuple):
+        picked = [picked]
+
     for picked_one in picked:
+        
         r1, c1, r2, c2 = picked_one
 
         x11, y11, x12, y12 = boxes[r1][c1]

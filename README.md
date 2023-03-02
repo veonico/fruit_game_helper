@@ -12,6 +12,7 @@
 
 ```bash
 git clone https://github.com/veonico/fruit_game_helper.git
+cd fruit_game_helper
 pip install -r requirements.txt
 ```
 

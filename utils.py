@@ -105,6 +105,8 @@ def find_tens(digit_matrix):
         r1, c1, r2, c2 = locs
         digit_matrix[r1:r2+1, c1:c2+1] = 0
 
+    print(f"weight : {weight}")
+
     return locs
 
 

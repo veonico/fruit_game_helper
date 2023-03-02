@@ -70,14 +70,14 @@ def find_tens(digit_matrix):
     """
     누적합을 통해, 합이 10이되는 경우의 수를 탐색한다.
     """
-    ROW_MAX = 10
-    COL_MAX = 17
+    ROW_MAX = 11
+    COL_MAX = 18
 
     cum_matrix = digit_matrix.cumsum(axis = 0).cumsum(axis = 1)
     cum_matrix = np.pad(cum_matrix, pad_width = 1)[:-1, :-1]
 
     weight = 0 # 가중치의 합
-    locs = (-1, -1, -1, -1) # 가장 높은 가중치를 가진 좌표
+    locs = None # 가장 높은 가중치를 가진 좌표
     
     for r1 in range (ROW_MAX-1):
         for c1 in range(COL_MAX-1):
@@ -101,8 +101,9 @@ def find_tens(digit_matrix):
                             locs = (r1, c1, r2-1, c2-1)
 
     # 탐색한 지역은 0으로 표시
-    r1, c1, r2, c2 = locs
-    digit_matrix[r1:r2+1, c1:c2+1] = 0
+    if locs:
+        r1, c1, r2, c2 = locs
+        digit_matrix[r1:r2+1, c1:c2+1] = 0
 
     return locs
 

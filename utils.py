@@ -95,7 +95,10 @@ def find_tens(digit_matrix):
                     area_rb = cum_matrix[r2][c2] # right-bottom area
 
                     if area_lt - area_lb - area_rt + area_rb == 10:
-                        temp_weight = np.sum(digit_matrix[r1:r2, c1:c2].flatten()**2)
+                        matrix_view = digit_matrix[r1:r2, c1:c2].copy()
+
+                        temp_weight = np.sum(matrix_view.flatten()**2) # 조합 가중치
+                        temp_weight *= np.where(matrix_view > 0, 1, 0).sum() # 크기 가중치
 
                         if temp_weight > weight:
                             weight = temp_weight

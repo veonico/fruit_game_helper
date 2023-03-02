@@ -57,7 +57,7 @@ while True:
         print("No Combination detected")
         break
 
-    if num_iter == 2:
-        break
+    # if num_iter == 2:
+    #     break
 
 cv2.destroyAllWindows()
